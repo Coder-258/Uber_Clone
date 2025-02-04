@@ -11,15 +11,15 @@ module.exports.registerUser=async (req,res,next)=>{
     return res.status(400).json({errors:errors.array()});
   }
   // create a new user
-  const {firstName,lastName,email,password}=req.body;
+  const {fullName,email,password}=req.body;
   const hashedPassword= await userModel.hashPassword(password);
   const user= await userService.createUser({
-    firstName,
-    lastName,
+    firstName:fullName.firstName,
+    lastName:fullName.lastName,
      email,
     password:hashedPassword
   })
   // generate a jwt token for verification and authentication
   const token=user.generateAuthToken()
-  res.statud(201).json({token,user})
+  res.status(201).json({token,user})
 }
