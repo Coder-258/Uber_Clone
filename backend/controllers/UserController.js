@@ -2,6 +2,7 @@
 const userModel=require('../models/User_Model')
 const userService=require('../services/UserService')
 const {validationResult}=require('express-validator');
+const blacklistToken=require('../models/blacklistToken');
 
 // logic to register a new user
 module.exports.registerUser=async (req,res,next)=>{
@@ -44,5 +45,21 @@ module.exports.loginUser=async (req,res,next)=>{
     return res.status(401).json({message:"Invalid Email or Password"})
   }
   const token=user.generateAuthToken();
+  res.cookie('token',token);
   res.status(200).json({token,user});
+}
+
+
+// get user profile
+module.exports.getUserProfile=async (req,res,next)=>{
+  const user=await userModel.findById(req.user._id);
+  res.status(200).json(user);
+}
+
+// logout user
+module.exports.logoutUser=async (req,res,next)=>{
+  res.clearCookie('token');
+  const token=req.cookies.token||req.headers.authorization.split(' ')[1];
+  await blacklistToken.create({token});
+  res.status(200).json({message:"Logged Out Successfully"});
 }
