@@ -19,6 +19,11 @@ const DriverSchema = new mongoose.Schema({
         unique: true,
         match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Please fill a valid email address']
     },
+    password: {
+        type: String,
+        required: true,
+        select: false
+    },
     socketId: {
         type: String,
     },
@@ -51,12 +56,10 @@ const DriverSchema = new mongoose.Schema({
     },
     location: {
         latitude: {
-            type: Number,
-            required: false,
+            type: Number
         },
         longitude: {
             type: Number,
-            required: false,
         },
     }
 });
@@ -74,5 +77,5 @@ DriverSchema.statics.hashPassword = async function (password) {
     return await bcrypt.hash(password, 10);
 };
 
-const driverModel = mongoose.model('driver', DriverSchema);
-module.exports = driverModel;
+const DriverModel = mongoose.model('Driver', DriverSchema);
+module.exports = DriverModel;

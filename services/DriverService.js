@@ -1,11 +1,19 @@
 const DriverModel = require('../models/DriverModel');
 
 module.exports.createDriver = async ({
-    firstName, lastName, email, password, color, plate, capacity, vehicleType, latitude, longitude
+    fullName, email, password, vehicle
 }) => {
-    if (!firstName || !email || !password || !color || !plate || !capacity || !vehicleType) {
-        throw new Error('All fields are required');
+    if (!fullName || !email || !password || !vehicle) {
+        throw new Error('All required fields must be provided');
     }
+    
+    const { firstName, lastName } = fullName;
+    const { color, plate, capacity, vehicleType } = vehicle;
+
+    if (!firstName || !lastName || !color || !plate || !capacity || !vehicleType) {
+        throw new Error('All required fields must be provided');
+    }
+
     const driver = await DriverModel.create({
         fullName: {
             firstName,
@@ -19,10 +27,6 @@ module.exports.createDriver = async ({
             capacity,
             vehicleType
         },
-        location: {
-            latitude,
-            longitude
-        }
     });
     return driver;
 };

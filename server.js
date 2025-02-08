@@ -1,4 +1,6 @@
 // main file for our server
+const dotenv=require('dotenv');
+dotenv.config();
 const http=require('http');
 const app=require('./app.js');
 const port= process.env.PORT||3000;
