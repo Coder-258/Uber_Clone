@@ -107,3 +107,65 @@ This endpoint retrieves the user's profile information.
   "error": "Unauthorized"
 }
 ```
+
+### /drivers/register
+
+This endpoint allows drivers to register on the platform.
+
+- **URL**: `/drivers/register`
+
+- **Method**: `POST`
+
+- **Request Body**:
+
+  - `fullName.firstName` (string): Driver's first name (minimum 3 characters).
+  - `fullName.lastName` (string): Driver's last name.
+  - `email` (string): Driver's email address (must be unique and valid).
+  - `password` (string): Driver's password (minimum 6 characters).
+  - `vehicle.color` (string): Vehicle color (minimum 3 characters).
+  - `vehicle.plate` (string): Vehicle plate number (minimum 3 characters).
+  - `vehicle.capacity` (integer): Vehicle capacity (minimum 1).
+  - `vehicle.vehicleType` (string): Type of vehicle (`car`, `bike`).
+  - `location.latitude` (number, optional): Driver's current latitude.
+  - `location.longitude` (number, optional): Driver's current longitude.
+
+- **Response**:
+
+  - `201 Created`: If registration is successful, returns a JSON object with the driver details and a token.
+  - `400 Bad Request`: If validation fails, returns an error message.
+
+```json
+{
+  "fullName": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "email": "driver@example.com",
+  "password": "driverpassword",
+  "vehicle": {
+    "color": "red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  },
+  "location": {
+    "latitude": 37.7749,
+    "longitude": -122.4194
+  }
+}
+```
+
+```json
+{
+  "token": "jwt_token",
+  "driver": {
+    "id": "driver_id",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "driver@example.com"
+  }
+}
+```
+

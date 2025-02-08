@@ -5,6 +5,7 @@ const cors=require('cors');
 const connect_to_db=require('./db/db_Connection');
 const userRoutes=require('./routes/UserRoutes');
 const cookieParser=require('cookie-parser');
+const driverRoutes=require('./routes/DriverRoutes');
 const app=express();
 
 app.use(cors());
@@ -17,6 +18,7 @@ app.get("/",(req,res)=>{
     res.send("Hello");
 })
 app.use('/users',userRoutes);
+app.use('/drivers',driverRoutes);
 
 
 module.exports=app
